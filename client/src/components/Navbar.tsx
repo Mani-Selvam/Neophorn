@@ -34,36 +34,29 @@ export function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-nav py-4" : "bg-transparent py-6"
+        scrolled ? "bg-white/80 backdrop-blur-md border-b border-black/5 py-4" : "bg-transparent py-6"
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group cursor-pointer">
-          <div className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors border border-primary/20">
-            <Cpu className="w-6 h-6 text-primary" />
-            <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
-          <span className="font-display font-bold text-xl tracking-tight text-white">
-            Neophron<span className="text-primary">Tech</span>
+          <span className="font-display font-bold text-2xl tracking-tighter text-black">
+            BRAND
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <button
-              key={link.name}
-              onClick={() => scrollToSection(link.id)}
-              className="text-sm font-medium text-muted-foreground hover:text-white transition-colors"
-            >
-              {link.name}
-            </button>
-          ))}
+        <div className="hidden md:flex items-center gap-12">
+          <div className="flex items-center gap-8">
+            <Link href="/">
+              <a className="text-sm font-medium text-black/60 hover:text-black transition-colors">Home</a>
+            </Link>
+            <a href="#about" className="text-sm font-medium text-black/60 hover:text-black transition-colors">About</a>
+            <a href="#contact" className="text-sm font-medium text-black/60 hover:text-black transition-colors">Contact</a>
+          </div>
           <Button 
-            onClick={() => scrollToSection("contact")}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
+            className="bg-white text-black hover:bg-white/90 border border-black/10 rounded-full px-8 py-2 h-auto text-sm font-bold shadow-sm"
           >
-            Get Started
+            Explore Now
           </Button>
         </div>
 

@@ -38,63 +38,105 @@ export default function Home() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-          {/* Ambient Glows */}
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] -z-10 animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px] -z-10" />
-
-          <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8">
-                <Sparkles className="w-4 h-4" />
-                <span>Next-Gen AI Solutions Available Now</span>
-              </div>
-              
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight mb-8 leading-tight">
-                Empowering Businesses <br /> with 
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-white to-secondary text-glow mx-2">
-                   Smarter AI
-                </span>
-              </h1>
-              
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-                Accelerate your digital transformation with autonomous software systems designed for the future of enterprise intelligence.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button 
-                  size="lg" 
-                  onClick={() => scrollTo('contact')}
-                  className="w-full sm:w-auto text-lg px-8 py-6 rounded-2xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1 transition-all"
-                >
-                  Get Free Consultation
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  onClick={() => scrollTo('products')}
-                  className="w-full sm:w-auto text-lg px-8 py-6 rounded-2xl border-white/10 bg-white/5 hover:bg-white/10 text-white backdrop-blur-sm hover:-translate-y-1 transition-all"
-                >
-                  View Solutions
-                </Button>
-              </div>
-            </motion.div>
+        <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-[#78b3f2]">
+          {/* Grainy Texture Overlay */}
+          <div className="absolute inset-0 z-0 opacity-20 pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+          
+          {/* Ambient Background Elements */}
+          <div className="absolute inset-0 z-0">
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-white/40 rounded-full blur-[180px] animate-pulse" />
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/30 rounded-full blur-[140px]" />
           </div>
 
-          {/* Hero Scroll Indicator */}
-          <motion.div 
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 text-muted-foreground/50"
-          >
-            <div className="w-6 h-10 border-2 border-current rounded-full flex justify-center pt-2">
-              <div className="w-1 h-2 bg-current rounded-full" />
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="flex flex-col items-center text-center">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1 }}
+                className="relative w-full max-w-4xl"
+              >
+                {/* Floating Spheres (Animation based on the image) */}
+                <motion.div 
+                  animate={{ 
+                    y: [0, -20, 0],
+                    x: [0, 10, 0],
+                    rotate: [0, 5, 0]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-40 -left-20 md:-left-40 w-24 h-24 md:w-32 md:h-32 bg-zinc-900 rounded-full shadow-[inset_-10px_-10px_20px_rgba(255,255,255,0.05),20px_20px_40px_rgba(0,0,0,0.6)] z-20"
+                />
+                <motion.div 
+                  animate={{ 
+                    y: [0, 25, 0],
+                    x: [0, -15, 0],
+                    rotate: [0, -10, 0]
+                  }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  className="absolute top-40 -left-32 md:-left-60 w-32 h-32 md:w-48 md:h-48 bg-zinc-900 rounded-full shadow-[inset_-15px_-15px_30px_rgba(255,255,255,0.05),30px_30px_60px_rgba(0,0,0,0.7)] z-20"
+                />
+                <motion.div 
+                  animate={{ 
+                    y: [0, -30, 0],
+                    x: [0, -20, 0],
+                    rotate: [0, 15, 0]
+                  }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute -top-20 -right-20 md:-right-60 w-40 h-40 md:w-56 md:h-56 bg-zinc-900 rounded-full shadow-[inset_-20px_-20px_40px_rgba(255,255,255,0.05),40px_40px_80px_rgba(0,0,0,0.8)] z-20"
+                />
+                <motion.div 
+                  animate={{ 
+                    y: [0, 15, 0],
+                    x: [0, 20, 0],
+                    rotate: [0, -5, 0]
+                  }}
+                  transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                  className="absolute bottom-0 -right-24 md:-right-40 w-20 h-20 md:w-28 md:h-28 bg-zinc-900 rounded-full shadow-[inset_-8px_-8px_16px_rgba(255,255,255,0.05),16px_16px_32px_rgba(0,0,0,0.6)] z-20"
+                />
+
+                {/* Main Content */}
+                <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8 text-black leading-[0.9] drop-shadow-sm select-none">
+                  The Metaverse <br /> Explorer
+                </h1>
+                
+                <p className="text-lg md:text-xl text-black/60 max-w-lg mx-auto mb-10 font-medium leading-relaxed">
+                  Light enables users to discovers connections that was not possiable before
+                </p>
+
+                <Button 
+                  size="lg" 
+                  className="bg-black hover:bg-black/90 text-white px-12 py-8 rounded-full text-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-2xl hover:shadow-black/20"
+                  onClick={() => scrollTo('contact')}
+                >
+                  Explore Now
+                </Button>
+
+                {/* Decorative Swooshes matching image */}
+                <div className="absolute inset-0 -z-10 pointer-events-none">
+                  <svg className="w-full h-full opacity-30" viewBox="0 0 800 600">
+                    <motion.path
+                      d="M100,500 Q400,100 700,500"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="2"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+                    />
+                    <motion.path
+                      d="M700,100 Q400,500 100,100"
+                      fill="none"
+                      stroke="white"
+                      strokeWidth="2"
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ duration: 2.5, repeat: Infinity, repeatType: "reverse", delay: 1 }}
+                    />
+                  </svg>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
+          </div>
         </section>
 
         {/* Products Section */}
