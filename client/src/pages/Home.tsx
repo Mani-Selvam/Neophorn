@@ -105,11 +105,49 @@ export default function Home() {
 
                 <Button 
                   size="lg" 
-                  className="bg-black hover:bg-black/90 text-white px-12 py-8 rounded-full text-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-2xl hover:shadow-black/20"
+                  className="bg-black hover:bg-black/90 text-white px-12 py-8 rounded-full text-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-2xl hover:shadow-black/20 mb-16"
                   onClick={() => scrollTo('contact')}
                 >
                   Explore Now
                 </Button>
+
+                {/* Client Logo Ticker */}
+                <div className="w-full max-w-2xl mx-auto overflow-hidden">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5 }}
+                    className="flex flex-col gap-4"
+                  >
+                    <p className="text-xs font-bold tracking-[0.2em] uppercase text-black/40">Trusted Partners</p>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#78b3f2] to-transparent z-10" />
+                      <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#78b3f2] to-transparent z-10" />
+                      
+                      <motion.div 
+                        animate={{ x: ["0%", "-50%"] }}
+                        transition={{ 
+                          duration: 20, 
+                          repeat: Infinity, 
+                          ease: "linear" 
+                        }}
+                        className="flex whitespace-nowrap gap-12 py-2"
+                      >
+                        {[
+                          "ACME CORP", "NEBULA", "QUANTUM", "FUTURE", "GLOBAL",
+                          "ACME CORP", "NEBULA", "QUANTUM", "FUTURE", "GLOBAL"
+                        ].map((logo, i) => (
+                          <span 
+                            key={i} 
+                            className="text-xl font-black tracking-tighter text-black/20 hover:text-black/40 transition-colors cursor-default"
+                          >
+                            {logo}
+                          </span>
+                        ))}
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </div>
 
                 {/* Decorative Swooshes matching image */}
                 <div className="absolute inset-0 -z-10 pointer-events-none">
