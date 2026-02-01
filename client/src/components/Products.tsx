@@ -1,359 +1,289 @@
-import { Section } from "@/components/Section";
-import { useState, useEffect, useRef } from "react";
-import { ArrowRight, Layers, BarChart3, Globe, Activity } from "lucide-react";
+import { useState, useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { Layers, BarChart3, Globe, Activity, ArrowRight, Check, Sparkles } from "lucide-react";
 
-// --- Data ---
 const products = [
     {
         id: "neo-erp",
-        icon: <Layers size={24} />,
+        icon: Layers,
         name: "Neo ERP",
         tagline: "Orchestrate Everything",
-        description:
-            "Unifying finance, supply chain, and operations into a single, intelligent platform for seamless enterprise management.",
-        color: "from-blue-400/20 to-cyan-400/20",
-        accentColor: "#60a5fa",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
+        description: "Unifying finance, supply chain, and operations into a single, intelligent platform for seamless enterprise management.",
+        features: ["Financial Management", "Supply Chain", "Operations Hub", "Real-time Analytics"],
+        gradient: "from-blue-500 to-cyan-400",
+        bgGradient: "from-blue-50 to-cyan-50",
+        color: "#3b82f6",
     },
     {
         id: "neo-crm",
-        icon: <BarChart3 size={24} />,
+        icon: BarChart3,
         name: "Neo CRM",
         tagline: "Predict the Future",
-        description:
-            "AI-powered customer relationship management with predictive analytics to maximize engagement and lifetime value.",
-        color: "from-emerald-400/20 to-teal-400/20",
-        accentColor: "#34d399",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
+        description: "AI-powered customer relationship management with predictive analytics to maximize engagement and lifetime value.",
+        features: ["Lead Scoring", "Sales Pipeline", "Customer Insights", "Automation"],
+        gradient: "from-emerald-500 to-teal-400",
+        bgGradient: "from-emerald-50 to-teal-50",
+        color: "#10b981",
     },
     {
         id: "my-campus",
-        icon: <Globe size={24} />,
+        icon: Globe,
         name: "My Campus",
         tagline: "Educate at Scale",
-        description:
-            "Digital ecosystem empowering institutions with AI-driven curriculum management and global connectivity.",
-        color: "from-purple-400/20 to-pink-400/20",
-        accentColor: "#c084fc",
-        image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop",
+        description: "Digital ecosystem empowering institutions with AI-driven curriculum management and global connectivity.",
+        features: ["LMS Integration", "Student Portal", "Analytics Dashboard", "Virtual Classrooms"],
+        gradient: "from-purple-500 to-pink-400",
+        bgGradient: "from-purple-50 to-pink-50",
+        color: "#8b5cf6",
     },
     {
         id: "neo-connect",
-        icon: <Activity size={24} />,
+        icon: Activity,
         name: "Neo Connect",
         tagline: "Sync the Unsynced",
-        description:
-            "Real-time mesh networking for multi-branch enterprises with zero-latency data synchronization.",
-        color: "from-orange-400/20 to-amber-400/20",
-        accentColor: "#fb923c",
-        image: "https://images.unsplash.com/photo-1558494949-ef526b0042a0?w=800&h=600&fit=crop",
+        description: "Real-time mesh networking for multi-branch enterprises with zero-latency data synchronization.",
+        features: ["Multi-branch Sync", "Real-time Data", "API Gateway", "Cloud Native"],
+        gradient: "from-orange-500 to-amber-400",
+        bgGradient: "from-orange-50 to-amber-50",
+        color: "#f97316",
     },
 ];
 
-// --- Components ---
-
-function WorkspaceScene() {
-    return (
-        <div className="absolute inset-0 overflow-hidden">
-            {/* Soft Gradient Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/40" />
-
-            {/* Subtle Grid Pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f020_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f020_1px,transparent_1px)] bg-[size:3rem_3rem]" />
-
-            {/* Light Grain Texture */}
-            <div
-                className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
-                style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                }}
-            />
-
-            {/* Ambient Light Orbs */}
-            <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-gradient-radial from-blue-200/30 via-purple-200/20 to-transparent blur-[100px] animate-float-slow" />
-            <div className="absolute bottom-[-10%] left-[-5%] w-[35%] h-[35%] bg-gradient-radial from-pink-200/20 via-cyan-200/15 to-transparent blur-[100px] animate-float-slower" />
-
-            {/* Desk Illustration (Minimalist SVG) */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-5xl">
-                {/* Desk Surface */}
-                <div className="relative h-32 bg-gradient-to-b from-white via-gray-50 to-gray-100 rounded-t-2xl shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.1)] border-t border-x border-gray-200/50">
-                    {/* Desk Edge Highlight */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white to-transparent opacity-60" />
-
-                    {/* Subtle Desk Details */}
-                    <div className="absolute top-8 right-16 w-20 h-12 bg-gray-100 rounded-lg shadow-sm border border-gray-200/50 opacity-40" />
-                    <div className="absolute top-10 left-20 w-6 h-6 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full shadow-sm opacity-30" />
-                </div>
-
-                {/* Chair Silhouette */}
-                <div className="absolute bottom-32 right-[15%] w-24 h-32 opacity-20">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-16 bg-gradient-to-b from-gray-800 to-gray-900 rounded-t-xl" />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-20 bg-gray-800 rounded-full" />
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function GlassmorphicCard({
-    product,
-    index,
-    offset,
-}: {
-    product: (typeof products)[0];
-    index: number;
-    offset: number;
+function ProductCard({ product, index, isActive, onClick }: { 
+    product: typeof products[0]; 
+    index: number; 
+    isActive: boolean;
+    onClick: () => void;
 }) {
-    const position = (index - offset + products.length) % products.length;
-    const isCenter = position === 1;
-
-    // Calculate transform based on position
-    const getTransform = () => {
-        const baseX = (position - 1) * 340; // 320px card + 20px gap
-        const scale = isCenter ? 1 : 0.85;
-        const rotateY = isCenter ? 0 : (position - 1) * -8;
-        const z = isCenter ? 50 : 0;
-
-        return {
-            transform: `translateX(${baseX}px) translateZ(${z}px) scale(${scale}) rotateY(${rotateY}deg)`,
-            opacity: isCenter ? 1 : 0.4,
-            zIndex: isCenter ? 20 : 10,
-        };
-    };
-
+    const Icon = product.icon;
+    
     return (
-        <div
-            className="absolute left-1/2 -translate-x-1/2 transition-all duration-700 ease-out"
-            style={getTransform()}>
-            <div className="w-[320px] h-[420px] group cursor-pointer">
-                {/* Glassmorphic Card */}
-                <div className="relative w-full h-full rounded-3xl overflow-hidden bg-white/60 backdrop-blur-2xl border border-white/50 shadow-[0_20px_60px_-10px_rgba(0,0,0,0.15)] hover:shadow-[0_30px_80px_-15px_rgba(0,0,0,0.25)] transition-all duration-500">
-                    {/* Gradient Overlay */}
-                    <div
-                        className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                    />
-
-                    {/* Image Container */}
-                    <div className="relative h-[240px] overflow-hidden">
-                        <img
-                            src={product.image}
-                            alt={product.name}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                            style={{ opacity: 0.85 }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/80" />
-                    </div>
-
-                    {/* Content */}
-                    <div className="relative p-6 space-y-3">
-                        {/* Icon Badge */}
-                        <div
-                            className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/80 backdrop-blur-sm shadow-lg mb-2"
-                            style={{ color: product.accentColor }}>
-                            {product.icon}
-                        </div>
-
-                        {/* Title */}
-                        <h3 className="text-2xl font-bold text-gray-800 tracking-tight">
-                            {product.name}
-                        </h3>
-
-                        {/* Tagline */}
-                        <p className="text-sm font-medium text-gray-500 tracking-wide">
-                            {product.tagline}
-                        </p>
-
-                        {/* Description */}
-                        <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
-                            {product.description}
-                        </p>
-
-                        {/* Accent Line */}
-                        <div
-                            className="w-12 h-1 rounded-full mt-4 transition-all duration-500 group-hover:w-20"
-                            style={{ backgroundColor: product.accentColor }}
-                        />
-                    </div>
-
-                    {/* Glass Shine Effect */}
-                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-50" />
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function CarouselIndicators({
-    total,
-    active,
-    onSelect,
-}: {
-    total: number;
-    active: number;
-    onSelect: (i: number) => void;
-}) {
-    return (
-        <div className="flex items-center gap-3">
-            {Array.from({ length: total }).map((_, i) => (
-                <button
-                    key={i}
-                    onClick={() => onSelect(i)}
-                    className={`transition-all duration-300 rounded-full ${
-                        i === active
-                            ? "w-12 h-2 bg-gray-700"
-                            : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
-                    }`}
+        <motion.div
+            layout
+            onClick={onClick}
+            className={`relative cursor-pointer rounded-2xl overflow-hidden transition-all duration-500 ${
+                isActive ? 'col-span-2 row-span-2' : 'col-span-1 row-span-1'
+            }`}
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            whileHover={{ scale: isActive ? 1 : 1.02 }}
+        >
+            <div className={`relative h-full min-h-[200px] ${isActive ? 'min-h-[400px]' : ''} p-6 bg-gradient-to-br ${product.bgGradient} border border-gray-100 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500`}>
+                
+                {/* Decorative gradient orb */}
+                <div 
+                    className={`absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 bg-gradient-to-br ${product.gradient}`}
                 />
-            ))}
-        </div>
+                
+                {/* Icon */}
+                <motion.div 
+                    className={`relative inline-flex items-center justify-center rounded-xl bg-gradient-to-br ${product.gradient} shadow-lg mb-4`}
+                    animate={{ 
+                        width: isActive ? 64 : 48,
+                        height: isActive ? 64 : 48,
+                    }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <Icon className="text-white" size={isActive ? 28 : 20} />
+                </motion.div>
+
+                {/* Content */}
+                <div className="relative z-10">
+                    <motion.h3 
+                        className="font-bold text-gray-900 mb-1"
+                        animate={{ fontSize: isActive ? '1.75rem' : '1.25rem' }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {product.name}
+                    </motion.h3>
+                    
+                    <p className={`text-sm font-medium mb-3`} style={{ color: product.color }}>
+                        {product.tagline}
+                    </p>
+
+                    <AnimatePresence>
+                        {isActive && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <p className="text-gray-600 mb-6 leading-relaxed">
+                                    {product.description}
+                                </p>
+
+                                {/* Features */}
+                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                    {product.features.map((feature, i) => (
+                                        <motion.div
+                                            key={feature}
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: i * 0.1 }}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <div className={`w-5 h-5 rounded-full bg-gradient-to-br ${product.gradient} flex items-center justify-center`}>
+                                                <Check className="w-3 h-3 text-white" />
+                                            </div>
+                                            <span className="text-sm text-gray-700">{feature}</span>
+                                        </motion.div>
+                                    ))}
+                                </div>
+
+                                {/* CTA */}
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className={`flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r ${product.gradient} text-white font-medium shadow-lg hover:shadow-xl transition-shadow`}
+                                >
+                                    Learn More
+                                    <ArrowRight size={16} />
+                                </motion.button>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
+
+                {/* Active indicator */}
+                {isActive && (
+                    <motion.div
+                        layoutId="activeIndicator"
+                        className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${product.gradient}`}
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.5 }}
+                    />
+                )}
+            </div>
+        </motion.div>
+    );
+}
+
+function FloatingParticle({ delay }: { delay: number }) {
+    return (
+        <motion.div
+            className="absolute w-2 h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-40"
+            style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+                y: [0, -30, 0],
+                x: [0, 15, 0],
+                scale: [1, 1.2, 1],
+                opacity: [0.4, 0.7, 0.4],
+            }}
+            transition={{
+                duration: 4,
+                delay,
+                repeat: Infinity,
+                ease: "easeInOut",
+            }}
+        />
     );
 }
 
 export function Products() {
-    const [offset, setOffset] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
-
-    // Auto-rotate carousel
-    useEffect(() => {
-        if (isPaused) return;
-
-        const interval = setInterval(() => {
-            setOffset((prev) => (prev + 1) % products.length);
-        }, 3500);
-
-        return () => clearInterval(interval);
-    }, [isPaused]);
-
-    const handleIndicatorClick = (index: number) => {
-        setOffset(index);
-        setIsPaused(true);
-        setTimeout(() => setIsPaused(false), 5000);
-    };
+    const [activeProduct, setActiveProduct] = useState(0);
+    const sectionRef = useRef<HTMLDivElement>(null);
+    const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
     return (
-        <Section
-            id="products"
-            className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/40"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}>
-            {/* Scene Background */}
-            <WorkspaceScene />
-
-            {/* Main Content Container */}
-            <div className="relative z-10 container mx-auto px-6 h-screen flex flex-col justify-center">
-                <div className="flex flex-col items-center gap-16">
-                    {/* Header Section */}
-                    <div className="text-center space-y-4 max-w-3xl animate-fade-in">
-                        <p className="text-sm font-medium text-gray-500 tracking-[0.2em] uppercase">
-                            Our Products
-                        </p>
-                        <h1 className="text-6xl md:text-7xl font-black tracking-tight text-gray-900 leading-tight">
-                            Built for the{" "}
-                            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                                Future
-                            </span>
-                        </h1>
-                        <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                            Enterprise solutions designed with intelligence,
-                            crafted with precision
-                        </p>
-                    </div>
-
-                    {/* 3D Carousel Container */}
-                    <div
-                        className="relative w-full h-[480px] perspective-container"
-                        style={{ perspective: "2000px" }}>
-                        <div className="absolute inset-0 flex items-center justify-center preserve-3d">
-                            {products.map((product, index) => (
-                                <GlassmorphicCard
-                                    key={product.id}
-                                    product={product}
-                                    index={index}
-                                    offset={offset}
-                                />
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Carousel Controls */}
-                    <div className="flex flex-col items-center gap-6 animate-fade-in-delay">
-                        <CarouselIndicators
-                            total={products.length}
-                            active={offset}
-                            onSelect={handleIndicatorClick}
-                        />
-
-                        <div className="flex items-center gap-4">
-                            <button className="group px-8 py-3.5 bg-gray-900 hover:bg-gray-800 text-white font-semibold text-sm tracking-wide rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center gap-2">
-                                Explore Products
-                                <ArrowRight
-                                    size={16}
-                                    className="group-hover:translate-x-1 transition-transform"
-                                />
-                            </button>
-                            <button className="px-6 py-3.5 text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors">
-                                View Demo
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <section 
+            ref={sectionRef}
+            id="products" 
+            className="relative py-24 bg-white overflow-hidden"
+        >
+            {/* Background elements */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-blue-100/50 via-purple-100/30 to-transparent rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-orange-100/40 via-pink-100/20 to-transparent rounded-full blur-3xl" />
+                
+                {/* Floating particles */}
+                {[...Array(8)].map((_, i) => (
+                    <FloatingParticle key={i} delay={i * 0.5} />
+                ))}
             </div>
 
-            {/* Custom Animations */}
-            <style jsx global>{`
-                @keyframes float-slow {
-                    0%,
-                    100% {
-                        transform: translate(0, 0);
-                    }
-                    50% {
-                        transform: translate(30px, -30px);
-                    }
-                }
-                @keyframes float-slower {
-                    0%,
-                    100% {
-                        transform: translate(0, 0);
-                    }
-                    50% {
-                        transform: translate(-40px, 40px);
-                    }
-                }
-                .animate-float-slow {
-                    animation: float-slow 20s ease-in-out infinite;
-                }
-                .animate-float-slower {
-                    animation: float-slower 25s ease-in-out infinite;
-                }
-                .perspective-container {
-                    perspective: 2000px;
-                }
-                .preserve-3d {
-                    transform-style: preserve-3d;
-                }
-                .animate-fade-in {
-                    animation: fadeIn 1s ease-out;
-                }
-                .animate-fade-in-delay {
-                    animation: fadeIn 1s ease-out 0.3s backwards;
-                }
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                .bg-gradient-radial {
-                    background: radial-gradient(
-                        circle,
-                        var(--tw-gradient-stops)
-                    );
-                }
-            `}</style>
-        </Section>
+            <div className="container mx-auto px-4 relative z-10">
+                {/* Header */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16"
+                >
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={isInView ? { scale: 1 } : {}}
+                        transition={{ duration: 0.5, delay: 0.2 }}
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-100 mb-6"
+                    >
+                        <Sparkles className="w-4 h-4 text-blue-500" />
+                        <span className="text-sm font-medium text-gray-700">Our Products</span>
+                    </motion.div>
+                    
+                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                        Built for the{" "}
+                        <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            Future
+                        </span>
+                    </h2>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Enterprise solutions designed with intelligence, crafted with precision.
+                        Click on any product to explore more.
+                    </p>
+                </motion.div>
+
+                {/* Products Grid */}
+                <motion.div 
+                    className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto"
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                >
+                    {products.map((product, index) => (
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                            index={index}
+                            isActive={activeProduct === index}
+                            onClick={() => setActiveProduct(index)}
+                        />
+                    ))}
+                </motion.div>
+
+                {/* Bottom CTA */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                    className="text-center mt-16"
+                >
+                    <div className="inline-flex flex-wrap justify-center gap-4">
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-8 py-4 bg-gray-900 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+                            data-testid="button-explore-all"
+                        >
+                            Explore All Products
+                            <ArrowRight size={18} />
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-8 py-4 bg-white text-gray-700 font-semibold rounded-xl border border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md transition-all"
+                            data-testid="button-request-demo"
+                        >
+                            Request a Demo
+                        </motion.button>
+                    </div>
+                </motion.div>
+            </div>
+        </section>
     );
 }
