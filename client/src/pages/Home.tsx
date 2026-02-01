@@ -8,26 +8,25 @@ import { Clients } from "@/components/Clients";
 import { Contact } from "@/components/Contact";
 
 export default function Home() {
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
+    const scrollTo = (id: string) => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    };
 
-  return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <div className="fixed inset-0 z-0 grid-pattern opacity-30 pointer-events-none" />
-      
-      <Navbar />
+    return (
+        <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+            <div className="fixed inset-0 z-0 grid-pattern opacity-30 pointer-events-none" />
 
-      <main>
-        <Hero onExploreClick={() => scrollTo('contact')} />
-        <Products />
-        <Industries />
-        <Tech />
-        <Clients />
-        <Contact />
-      </main>
+            <Navbar />
 
-      <Footer />
-    </div>
-  );
+            <main>
+                <Hero onExploreClick={() => scrollTo("contact")} />
+                <Industries />
+                <Products />
+                <Tech />
+                <Contact />
+            </main>
+
+            <Footer />
+        </div>
+    );
 }
