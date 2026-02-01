@@ -4,6 +4,7 @@ import { Hero } from "@/components/Hero";
 import { Products } from "@/components/Products";
 import { Industries } from "@/components/Industries";
 import { Tech } from "@/components/Tech";
+import { Testimonials } from "@/components/Testimonials";
 import { Clients } from "@/components/Clients";
 import { Contact } from "@/components/Contact";
 
@@ -23,6 +24,7 @@ export default function Home() {
                 <Industries />
                 <Products />
                 <Tech />
+                <Testimonials />
                 <Contact />
             </main>
 
